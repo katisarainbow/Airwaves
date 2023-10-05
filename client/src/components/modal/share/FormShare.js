@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Flex,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import FirstStep from "./shareSteps/FirstStep";
-import SecondStep from "./shareSteps/SecondStep";
+import FirstStep from './shareSteps/FirstStep';
+import SecondStep from './shareSteps/SecondStep';
 
 const FormShare = ({ onClose }) => {
   const [imageToCrop, setImageToCrop] = useState(null);
@@ -30,10 +30,10 @@ const FormShare = ({ onClose }) => {
   };
 
   return (
-    <ModalContent bg="#ececed" align="center">
-      <ModalHeader>Create a post</ModalHeader>
-      <ModalCloseButton />
-      <Flex height="700px" flexDirection="column" align="center">
+    <ModalContent bg="background" align="center">
+      <ModalHeader color="text">Create a post</ModalHeader>
+      <ModalCloseButton color="primary" _hover={{ color: 'text' }} />
+      <Flex flexDirection="column" align="center">
         {!imageToCrop ? (
           <FirstStep {...{ sendImage }} />
         ) : (

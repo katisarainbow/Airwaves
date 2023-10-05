@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Avatar,
   Button,
@@ -8,28 +8,22 @@ import {
   Heading,
   IconButton,
   Image,
-  Input,
   Text,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import {
-  AiOutlineMessage,
-  AiOutlineHeart,
-  AiOutlineCheck,
-  AiFillHeart,
-} from "react-icons/ai";
+import { AiOutlineMessage, AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 
-import MoreMenu from "../menu/more/MoreMenu";
-import { likePost, commentPost } from "../../actions/posts";
-import Comments from "./comments/Comments";
-import { useNavigate } from "react-router-dom";
+import MoreMenu from '../menu/more/MoreMenu';
+import { likePost } from '../../actions/posts';
+import Comments from './comments/Comments';
+import { useNavigate } from 'react-router-dom';
 
 const Post = ({ postView }) => {
-  const post = postView[0];
+  const post = postView;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [comments, setComments] = useState(false);
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const user = JSON.parse(localStorage.getItem('profile'));
 
   if (!post) {
     return <h1>Loading</h1>;
@@ -51,34 +45,40 @@ const Post = ({ postView }) => {
   };
 
   return (
-    <Flex w="100%" bg="#03010c" padding="2rem" align="center" justify="center">
+    <Flex w="100%" padding="2rem" align="center" justify="center">
       <Flex
-        bg="#1c1a24"
+        bg="secondary"
         h="auto"
         align="center"
         justify="center"
         padding="1rem 2rem"
         direction="column"
+        borderRadius="30px"
       >
-        <Flex
-          w="100%"
-          padding="0rem 1rem"
-          align="center"
-          justify="space-between"
-          mb="1rem"
-        >
-          <Flex justify="center" align="center">
-            <Avatar src={post.profileImage} size="md" borderRadius="none" />
+        <Flex w="100%" align="center" justify="space-between" mb="1rem">
+          <Flex
+            justify="center"
+            align="center"
+            cursor="pointer"
+            onClick={() => navigate(`/user/${post.creator.username}`)}
+          >
+            <Avatar
+              src={post.creator.profileImage}
+              size="md"
+              borderRadius="none"
+            />
             <Flex direction="column">
               <Text color="white" ml="1rem">
-                {post.name ? post.name : "Name"}
+                {post.creator.name ? post.creator.name : 'Name'}
               </Text>
-              <Text fontSize="xs" color="white" ml="1rem">
-                @{post.username ? post.username : "username"}
+              <Text fontSize="xs" color="text" ml="1rem">
+                @{post.creator.username ? post.creator.username : 'username'}
               </Text>
             </Flex>
           </Flex>
-          {user?.result?._id === post?.creator && <MoreMenu {...{ post }} />}
+          {user?.result?._id === post?.creator._id && (
+            <MoreMenu {...{ post }} />
+          )}
         </Flex>
         <Image w="50rem" src={post.image ? post.image : post.selectedFile} />
 
@@ -91,10 +91,10 @@ const Post = ({ postView }) => {
         <Flex w="100%" padding="0rem 1rem" mt="1rem">
           {post.tags.map((tag) => (
             <Button
-              color="white"
               size="xs"
-              variant="outline"
+              variant="secondaryInvert"
               key={`${post._id}${tag}`}
+              onClick={() => navigate(`/search?searchQuery=${tag}`)}
               mr="10px"
             >
               {tag}
@@ -104,24 +104,26 @@ const Post = ({ postView }) => {
         <Flex w="100%" justify="flex-end" padding="1rem">
           <ButtonGroup gap={1}>
             {post.likes.length > 0 && (
-              <Text color="white">
+              <Text fontSize="sm" color="white" alignSelf="center">
                 {post.likes.length === 1
                   ? `${post.likes?.length} beat`
                   : `${post.likes?.length} beats`}
               </Text>
             )}
-            <Button
+            <IconButton
+              variant="secondaryInvert"
               size="sm"
               onClick={() => {
-                user ? like() : navigate("/auth");
+                user ? like() : navigate('/auth');
               }}
             >
               <Likes />
-            </Button>
+            </IconButton>
             <IconButton
+              variant="secondaryInvert"
               size="sm"
               onClick={() => {
-                user ? setComments(!comments) : navigate("/auth");
+                user ? setComments(!comments) : navigate('/auth');
               }}
               icon={<AiOutlineMessage />}
             />

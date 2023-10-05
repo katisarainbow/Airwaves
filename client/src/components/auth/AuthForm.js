@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from 'jwt-decode';
 import {
   Avatar,
   Button,
@@ -10,47 +12,51 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-} from "@chakra-ui/react";
-import * as Yup from "yup";
-import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
+  VisuallyHiddenInput,
+} from '@chakra-ui/react';
+import * as Yup from 'yup';
+import { Form, useFormik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 
-import { login, signup } from "../../actions/auth";
+import signupimage from '../../assets/signupimage.png';
+
+import { login, signup } from '../../actions/auth';
+import { AUTH } from '../../constants/actionTypes';
 
 const validationSchemaSignUp = Yup.object({
-  email: Yup.string("Enter a email")
-    .required("Email is required")
-    .email("Invalid email"),
+  email: Yup.string('Enter a email')
+    .required('Email is required')
+    .email('Invalid email'),
 
-  name: Yup.string("Enter a name")
-    .required("Name is required")
-    .min(1, "Too Short!")
-    .max(10, "Too Long!"),
+  name: Yup.string('Enter a name')
+    .required('Name is required')
+    .min(1, 'Too Short!')
+    .max(10, 'Too Long!'),
 
-  username: Yup.string("Enter a username")
-    .required("Username is required")
-    .min(3, "Too Short!")
-    .max(15, "Too Long!"),
+  username: Yup.string('Enter a username')
+    .required('Username is required')
+    .min(3, 'Too Short!')
+    .max(15, 'Too Long!'),
 
-  password: Yup.string("Enter a password"),
+  password: Yup.string('Enter a password'),
 
-  profileImage: Yup.string("Select a Image"),
+  profileImage: Yup.string('Select a Image'),
 
-  repeatPassword: Yup.string("Retype your Password").oneOf(
-    [Yup.ref("password")],
-    "Passwords must match"
+  repeatPassword: Yup.string('Retype your Password').oneOf(
+    [Yup.ref('password')],
+    'Passwords must match'
   ),
 });
 
 const validationSchemaLogIn = Yup.object({
-  username: Yup.string("Enter a username")
-    .required("Username is required")
-    .min(3, "Too Short!")
-    .max(15, "Too Long!"),
+  username: Yup.string('Enter a username')
+    .required('Username is required')
+    .min(3, 'Too Short!')
+    .max(15, 'Too Long!'),
 
-  password: Yup.string("Enter a password"),
+  password: Yup.string('Enter a password'),
 });
 
 const AuthForm = () => {
@@ -65,12 +71,12 @@ const AuthForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      name: "",
-      username: "",
-      password: "",
-      repeatPassword: "",
-      profileImage: "",
+      email: '',
+      name: '',
+      username: '',
+      password: '',
+      repeatPassword: '',
+      profileImage: '',
     },
     onSubmit: (formData) => {
       if (isSignUp) {
@@ -84,51 +90,61 @@ const AuthForm = () => {
     validationSchema: isSignUp ? validationSchemaSignUp : validationSchemaLogIn,
   });
 
+  const googleSuccess = async (res) => {
+    const token = res?.credential;
+    const result = jwt_decode(token);
+    // try {
+    //   dispatch({ type: AUTH, data: { result, token } });
+    //   navigate("/");
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
+    console.log(result);
+  };
+
+  const googleFailure = (error) => {
+    console.log(error);
+    console.log('Google Sign In Was Unsuccessful. Try Again Later.');
+  };
+
   useEffect(() => {
     if (image) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        formik.setFieldValue("profileImage", reader.result.toString());
+        formik.setFieldValue('profileImage', reader.result.toString());
         setShowImage(reader.result.toString());
       };
       reader.readAsDataURL(image);
     } else {
-      formik.setFieldValue("profileImage", null);
+      formik.setFieldValue('profileImage', null);
     }
   }, [image]);
 
   return (
     <Flex
       direction="column"
-      bg="#1c1a24"
-      w="50%"
-      h={isSignUp ? "80%" : "60%"}
+      bg="secondary"
+      w="30%"
+      h={isSignUp ? '80vh' : '50vh'}
       justify="center"
       align="center"
       borderRadius="20px"
+      color="white"
     >
-      <Heading color="white" mb="3rem">
-        {isSignUp ? "Sign Up" : "Sign In"}
-      </Heading>
+      <Flex mb="1rem">{isSignUp && <Image src={signupimage} w="400px" />}</Flex>
 
-      <form
-        mt="1rem"
-        w="100%"
-        padding="2rem"
-        align="center"
-        onSubmit={formik.handleSubmit}
-      >
+      <form align="end" onSubmit={formik.handleSubmit}>
         {isSignUp && (
           <Flex direction="column">
-            <FormLabel color="white">Image</FormLabel>
-            <Input
+            <FormLabel>Image</FormLabel>
+            <VisuallyHiddenInput
               type="file"
-              style={{ display: "none" }}
               ref={inputRef}
               accept="image/*"
               onChange={(event) => {
                 const file = event.target.files[0];
-                if (file && file.type.substr(0, 5) === "image") {
+                if (file && file.type.substr(0, 5) === 'image') {
                   setImage(file);
                 } else {
                   setImage(null);
@@ -138,9 +154,10 @@ const AuthForm = () => {
             <Flex w="100%" align="center">
               {showImage && <Avatar src={showImage} borderRadius="0%" />}
               <Button
-                w={showImage ? "80%" : "100%"}
+                variant="primary"
+                w={showImage ? '80%' : '100%'}
                 onClick={() => inputRef.current.click()}
-                ml={showImage ? "1rem" : "none"}
+                ml={showImage ? '1rem' : 'none'}
               >
                 Select a Image
               </Button>
@@ -150,11 +167,8 @@ const AuthForm = () => {
         {isSignUp && (
           <>
             <FormControl>
-              <FormLabel color="white" mt="1rem">
-                Email
-              </FormLabel>
+              <FormLabel mt="0.5em">Email</FormLabel>
               <Input
-                variant="filled"
                 type="text"
                 name="email"
                 value={formik.values.email}
@@ -163,10 +177,9 @@ const AuthForm = () => {
                 resize="none"
               />
             </FormControl>
-            <FormControl mt="1rem">
-              <FormLabel color="white">Name</FormLabel>
+            <FormControl mt="0.5em">
+              <FormLabel>Name</FormLabel>
               <Input
-                variant="filled"
                 type="text"
                 name="name"
                 value={formik.values.name}
@@ -177,10 +190,9 @@ const AuthForm = () => {
             </FormControl>
           </>
         )}
-        <FormControl mt={isSignUp ? "1rem" : "0rem"}>
-          <FormLabel color="white">Username</FormLabel>
+        <FormControl mt={isSignUp ? '0.5rem' : '0rem'}>
+          <FormLabel>Username</FormLabel>
           <Input
-            variant="filled"
             type="text"
             name="username"
             value={formik.values.username}
@@ -189,12 +201,11 @@ const AuthForm = () => {
             resize="none"
           />
         </FormControl>
-        <FormControl mt="1rem">
-          <FormLabel color="white">Password</FormLabel>
+        <FormControl mt="0.5em">
+          <FormLabel>Password</FormLabel>
           <InputGroup>
             <Input
-              variant="filled"
-              type={seePassword ? "text" : "password"}
+              type={seePassword ? 'text' : 'password'}
               name="password"
               value={formik.values.password}
               onChange={formik.handleChange}
@@ -210,12 +221,11 @@ const AuthForm = () => {
           </InputGroup>
         </FormControl>
         {isSignUp && (
-          <FormControl mt="1rem">
-            <FormLabel color="white">Repeat Password</FormLabel>
+          <FormControl mt="0.5em">
+            <FormLabel>Repeat Password</FormLabel>
             <InputGroup>
               <Input
-                variant="filled"
-                type={seeRepeatPassword ? "text" : "password"}
+                type={seeRepeatPassword ? 'text' : 'password'}
                 name="repeatPassword"
                 value={formik.values.repeatPassword}
                 onChange={formik.handleChange}
@@ -235,19 +245,28 @@ const AuthForm = () => {
             </InputGroup>
           </FormControl>
         )}
-        <Button w="30%" type="submit" mt="2rem">
+
+        <Button
+          w="30%"
+          variant="primary"
+          type="submit"
+          mt="1rem"
+          mb={!isSignUp ? '2rem' : '0px'}
+        >
           Send
         </Button>
       </form>
-
+      {!isSignUp && (
+        <GoogleLogin onSuccess={googleSuccess} onError={googleFailure} />
+      )}
       <Button
         mt="1rem"
         onClick={() => setIsSignUp(!isSignUp)}
         variant="none"
-        color="#4fc5ee"
+        color="accent"
       >
         {isSignUp
-          ? "Already have an account? Sign in"
+          ? 'Already have an account? Sign in'
           : "Don't have an account? Sign up"}
       </Button>
     </Flex>

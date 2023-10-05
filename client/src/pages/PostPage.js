@@ -1,18 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Flex } from "@chakra-ui/react";
 
 import Post from "../components/post/Post";
+import { fetchPostsById } from "../api";
 
-const PostPage = ({ posts }) => {
+const PostPage = () => {
   const { postId } = useParams();
+  const [post, setPost] = useState(null);
+  const [noPost, setNoPost] = useState(false);
 
-  const postView = posts.filter((post) => {
-    return post._id === postId;
-  });
+  useEffect(() => {
+    const getPostById = async () => {
+      const data = await fetchPostsById(postId);
+
+      if (!data) return setNoPost(true);
+      console.log(data);
+      setPost(data);
+    };
+
+    getPostById();
+  }, [postId]);
+
+  if (noPost) {
+    return "MENTIRA";
+  }
 
   return (
-    <Flex>{postView ? <Post {...{ postView }} /> : "no hay post :p"}</Flex>
+    <Flex>{post ? <Post {...{ postView: post.data }} /> : "Loading"}</Flex>
   );
 };
 

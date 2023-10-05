@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Box,
   Button,
-  ButtonGroup,
   Flex,
   ModalBody,
   Slider,
@@ -10,11 +9,11 @@ import {
   SliderThumb,
   SliderTrack,
   Text,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import Cropper from "react-easy-crop";
-import getCroppedImg from "./utils/cropImage";
-import ThirdStep from "./ThirdStep";
+import Cropper from 'react-easy-crop';
+import getCroppedImg from './utils/cropImage';
+import ThirdStep from './ThirdStep';
 
 const SecondStep = ({ imageToCrop, setImageToCrop, onClose }) => {
   const [isImageCropped, setIsImageCropped] = useState(false);
@@ -50,14 +49,20 @@ const SecondStep = ({ imageToCrop, setImageToCrop, onClose }) => {
     <>
       {!isImageCropped ? (
         <>
-          <ModalBody w="100%" borderTop="1px" borderColor="#3c3d4e">
-            <Flex mt="1rem" justify="space-around" h="80%" align="center">
+          <ModalBody w="100%" borderTop="1px" borderColor="secondary">
+            <Flex
+              mt="1rem"
+              justify="space-around"
+              h="80%"
+              align="center"
+              direction="column"
+            >
               <Box
                 sx={{
-                  background: "#3c3d4e",
-                  position: "relative",
-                  width: "30rem",
-                  height: "30rem",
+                  background: 'secondary',
+                  position: 'relative',
+                  width: '100%',
+                  height: '30rem',
                 }}
               >
                 <Cropper
@@ -73,21 +78,16 @@ const SecondStep = ({ imageToCrop, setImageToCrop, onClose }) => {
                   onCropComplete={cropComplete}
                 />
               </Box>
-              <Flex
-                w="40%"
-                bg="#3c3d4e"
-                direction="column"
-                padding="2rem"
-                borderRadius="20px"
-              >
+              <Flex w="100%" bg="secondary" direction="column" padding="2rem">
                 <Box
-                  color="white"
+                  color="text"
                   display="flex"
                   flexDirection="column"
                   mt="1.2rem"
                 >
                   <Text align="initial"> Zoom: {zoomPercent(zoom)}</Text>
                   <Slider
+                    colorScheme="purple"
                     mt="1rem"
                     min={1}
                     max={3}
@@ -103,11 +103,12 @@ const SecondStep = ({ imageToCrop, setImageToCrop, onClose }) => {
                   </Slider>
                 </Box>
                 <Box display="flex" flexDirection="column" mt="1rem">
-                  <Text align="initial" color="white">
-                    {" "}
-                    Rotation: {rotation + "°"}
+                  <Text align="initial" color="text">
+                    {' '}
+                    Rotation: {rotation + '°'}
                   </Text>
                   <Slider
+                    colorScheme="purple"
                     mt="1rem"
                     min={0}
                     max={300}
@@ -123,26 +124,20 @@ const SecondStep = ({ imageToCrop, setImageToCrop, onClose }) => {
                 </Box>
               </Flex>
             </Flex>
-            <ButtonGroup mt="1rem" spacing="400" variant="outline">
+            <Flex justify="flex-end" mt="1rem">
               <Button
+                variant="textOnly"
                 width="200px"
-                border="1px"
-                borderColor="#3c3d4e"
                 onClick={() => {
                   setImageToCrop(null);
                 }}
               >
                 Cancel
               </Button>
-              <Button
-                border="1px"
-                borderColor="#3c3d4e"
-                width="200px"
-                onClick={cropImage}
-              >
+              <Button variant="primary" onClick={cropImage}>
                 Next
               </Button>
-            </ButtonGroup>
+            </Flex>
           </ModalBody>
         </>
       ) : (

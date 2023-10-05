@@ -1,51 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { ChakraProvider } from "@chakra-ui/react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from 'react';
+import { ChakraProvider } from '@chakra-ui/react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import { useDispatch, useSelector } from "react-redux";
+import { theme } from './styles/theme';
 
-import theme from "./chakra/theme";
+import Auth from './pages/Auth';
+import Home from './pages/Home';
+import Explore from './pages/Explore';
+import PostPage from './pages/PostPage';
+import Profile from './pages/Profile';
+import Search from './pages/Search';
 
-import Navbar from "./components/navbar/Navbar";
-import Auth from "./pages/Auth";
-import Home from "./pages/Home";
-import PostPage from "./pages/PostPage";
-import NotFound from "./pages/NotFound";
+import EditProfile from './components/profile/edit/EditProfile';
+import Navbar from './components/navbar/Navbar';
 
-import { getPosts } from "./actions/posts";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const App = () => {
-  const dispatch = useDispatch();
-  const posts = useSelector((state) => state.post);
-  const user = JSON.parse(localStorage.getItem("profile"));
-
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const fetchPosts = () => {
-    console.log("siii!");
-    setCurrentPage(currentPage + 1);
-  };
-
-  useEffect(() => {
-    console.log("getting posts");
-    dispatch(getPosts(currentPage));
-  }, [dispatch, currentPage]);
-
-  console.log(currentPage);
+  const user = JSON.parse(localStorage.getItem('profile'));
 
   return (
     <ChakraProvider theme={theme}>
-      <BrowserRouter>
-        <Navbar {...{ user }} />
-        <Routes>
-          <Route
-            path="/"
-            element={<Home {...{ posts, user, fetchPosts, currentPage }} />}
-          />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/:postId" element={<PostPage {...{ posts }} />} />
-        </Routes>
-      </BrowserRouter>
+      <GoogleOAuthProvider clientId="950699349001-nklij99kr900m8dtr2isi1vafsfcpti9.apps.googleusercontent.com">
+        <BrowserRouter>
+          <Navbar {...{ user }} />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/user/:username" element={<Profile />} />
+            <Route path="/user/config" element={<EditProfile />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/:postId" element={<PostPage />} />
+            <Route path="/explore" element={<Explore {...{ user }} />} />
+          </Routes>
+        </BrowserRouter>
+      </GoogleOAuthProvider>
     </ChakraProvider>
   );
 };

@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Avatar,
   Card,
@@ -9,27 +9,31 @@ import {
   IconButton,
   Image,
   Text,
-} from "@chakra-ui/react";
-import { AiOutlineHeart } from "react-icons/ai";
+} from '@chakra-ui/react';
+import { AiOutlineHeart } from 'react-icons/ai';
 
 const Post = ({ post }) => {
   const navigate = useNavigate();
 
   return (
     <Flex w="100%" mb="1rem">
-      <Flex w="15%" justify="center">
-        <Avatar
-          src={post.profileImage}
-          position="sticky"
-          borderRadius="5px"
-          top="1rem"
-        />
-      </Flex>
-      <Card w="100%" bg="#1c1a24">
+      <Avatar
+        mr="1rem"
+        src={post.creator.profileImage}
+        borderRadius="0px"
+        cursor="pointer"
+      />
+
+      <Card w="100%" h="50%" bg="secondary">
         <CardHeader w="100%" padding="0rem 1rem">
           <Flex w="100%" h="3rem" align="center">
-            <Text color="white">
-              @{post.username ? post.username : "username"}
+            <Text
+              color="white"
+              _hover={{ color: 'primary' }}
+              cursor="pointer"
+              onClick={() => navigate(`/user/${post.username}`)}
+            >
+              @{post.creator.username ? post.creator.username : 'username'}
             </Text>
           </Flex>
         </CardHeader>
@@ -42,8 +46,8 @@ const Post = ({ post }) => {
           }}
         />
 
-        <CardFooter>
-          <Flex w="100%" justify="space-between" align="center">
+        <CardFooter h="3rem">
+          <Flex w="100%" justify="flex-end" align="center">
             {post.likes > 0 && (
               <Text color="white">
                 {post.likeCount === 1
@@ -52,8 +56,7 @@ const Post = ({ post }) => {
               </Text>
             )}
             <IconButton
-              color="white"
-              variant="ghost"
+              variant="onlyIcon"
               onClick={() => {
                 navigate(`/${post._id}`);
               }}

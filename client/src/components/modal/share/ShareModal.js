@@ -1,20 +1,26 @@
-import React from "react";
-import { IoMdAddCircleOutline } from "react-icons/io";
+import React from 'react';
+import { AiOutlinePlus } from 'react-icons/ai';
 import {
   IconButton,
   Modal,
   ModalOverlay,
   useDisclosure,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import FormShare from "./FormShare";
+import FormShare from './FormShare';
 
 const ShareModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <div>
-      <IconButton size="md" variant="ghost" color="#ececed" onClick={onOpen}>
-        <IoMdAddCircleOutline size="1.5rem" />
+      <IconButton
+        ml="1rem"
+        size="sm"
+        variant="icon"
+        borderRadius="100%"
+        onClick={onOpen}
+      >
+        <AiOutlinePlus />
       </IconButton>
       <Modal size="4xl" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

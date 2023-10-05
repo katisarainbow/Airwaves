@@ -1,14 +1,8 @@
-import {
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-} from "@chakra-ui/react";
-import React from "react";
-import { AiOutlineMore } from "react-icons/ai";
-import DeleteAlert from "../../alertDialog/DeleteAlert";
-import EditModal from "../../modal/edit/EditModal";
+import { IconButton, Menu, MenuButton, MenuList } from '@chakra-ui/react';
+import React from 'react';
+import { AiOutlineMore } from 'react-icons/ai';
+import DeleteAlert from '../../alertDialog/DeleteAlert';
+import EditModal from '../../modal/edit/EditModal';
 
 const MoreMenu = ({ post }) => {
   return (
@@ -16,11 +10,11 @@ const MoreMenu = ({ post }) => {
       <MenuButton
         as={IconButton}
         variant="ghost"
-        color="#e6e6e7"
+        color="text"
         transition="all 0.2s"
-        _hover={{ bg: "gray.400" }}
-        _expanded={{ bg: "blue.400" }}
-        _focus={{ boxShadow: "outline" }}
+        _hover={{ bg: 'gray.400' }}
+        _expanded={{ bg: 'blue.400' }}
+        _focus={{ boxShadow: 'outline' }}
         icon={<AiOutlineMore />}
       />
       <MenuList>
