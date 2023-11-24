@@ -1,6 +1,7 @@
 # Airwaves
 
 Airwaves: The Artist's Social Media Hub
+
 Welcome to Airwaves, the ultimate social media platform designed exclusively for artists, where creativity knows no bounds. Built with cutting-edge technologies such as React, JavaScript, Chakra UI, Express, Node.js, and MongoDB, Airwaves provides a seamless and inspiring space for artists to showcase their work, connect with fellow creatives, and build a vibrant community.
 
 Key Features:
