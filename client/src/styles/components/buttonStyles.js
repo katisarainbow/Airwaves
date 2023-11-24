@@ -13,12 +13,6 @@ export const ButtonStyles = {
         bg: 'accent',
       },
     },
-    secondary: {
-      color: 'text',
-      bg: 'secondary',
-      borderRadius: '100',
-      padding: '1em 2em',
-    },
     secondaryInvert: {
       color: 'text',
       borderRadius: '100',

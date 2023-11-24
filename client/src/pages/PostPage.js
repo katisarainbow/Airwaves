@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Flex } from "@chakra-ui/react";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Flex } from '@chakra-ui/react';
 
-import Post from "../components/post/Post";
-import { fetchPostsById } from "../api";
+import Post from '../components/post/Post';
+import { fetchPostsById } from '../api';
 
 const PostPage = () => {
   const { postId } = useParams();
@@ -23,11 +23,11 @@ const PostPage = () => {
   }, [postId]);
 
   if (noPost) {
-    return "MENTIRA";
+    return 'MENTIRA';
   }
 
   return (
-    <Flex>{post ? <Post {...{ postView: post.data }} /> : "Loading"}</Flex>
+    <Flex>{post ? <Post {...{ postView: post.data }} /> : 'Loading'}</Flex>
   );
 };
 

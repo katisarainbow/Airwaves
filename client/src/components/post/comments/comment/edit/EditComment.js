@@ -26,10 +26,7 @@ const EditComment = ({ comment, commentId }) => {
     <form onSubmit={formik.handleSubmit}>
       <Flex padding="0.5rem 0rem">
         <Textarea
-          variant="outline"
-          color="text"
-          borderColor="secondary"
-          bg="background"
+          variant="primaryInvert"
           w="93%"
           size="sm"
           name="comment"

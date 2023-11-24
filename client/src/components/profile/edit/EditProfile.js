@@ -1,4 +1,4 @@
-import { Flex, Image, Text } from '@chakra-ui/react';
+import { Flex, Image, Link, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { fetchUser } from '../../../api';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ const EditProfile = () => {
   const user = JSON.parse(localStorage.getItem('profile'));
   const [userInfo, setUserInfo] = useState();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -16,14 +17,11 @@ const EditProfile = () => {
       setUserInfo(data.data);
     };
     getUserInfo();
+    setIsLoading(false);
   }, []);
 
-  if (!userInfo) {
+  if (isLoading) {
     <Text>Loading...</Text>;
-  }
-
-  if (userInfo && user.result._id !== userInfo._id) {
-    return navigate('/auth');
   }
 
   return userInfo ? (
@@ -43,7 +41,10 @@ const EditProfile = () => {
       </Flex>
     </Flex>
   ) : (
-    <Text>Loading...</Text>
+    <Flex>
+      <Text>This user doesnt exist</Text>
+      <Link>return Home</Link>
+    </Flex>
   );
 };
 

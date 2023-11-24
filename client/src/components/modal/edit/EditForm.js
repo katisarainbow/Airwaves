@@ -1,24 +1,14 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import {
-  Button,
-  Flex,
-  IconButton,
-  Input,
-  ModalBody,
-  ModalFooter,
-  Textarea,
-} from "@chakra-ui/react";
-import { useFormik } from "formik";
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Flex, IconButton, Input, ModalBody, Textarea } from '@chakra-ui/react';
+import { useFormik } from 'formik';
 
-import { updatePost } from "../../../actions/posts";
-import { AiOutlineCheck } from "react-icons/ai";
-import * as Yup from "yup";
+import { updatePost } from '../../../actions/posts';
+import { AiOutlineCheck } from 'react-icons/ai';
+import * as Yup from 'yup';
 
 const EditForm = ({ post, onClose }) => {
   const dispatch = useDispatch();
-
-  const user = JSON.parse(localStorage.getItem("profile"));
 
   const formik = useFormik({
     initialValues: {
@@ -35,11 +25,11 @@ const EditForm = ({ post, onClose }) => {
 
   return (
     <>
-      <ModalBody borderTopWidth="1px">
+      <ModalBody borderTopWidth="1px" borderColor="secondary">
         <form onSubmit={formik.handleSubmit}>
           <Flex direction="column">
             <Input
-              variant="outline"
+              variant="primary"
               name="title"
               value={formik.values.title}
               onChange={formik.handleChange}
@@ -48,7 +38,7 @@ const EditForm = ({ post, onClose }) => {
               mb="1rem"
             />
             <Textarea
-              variant="outline"
+              variant="primary"
               name="description"
               value={formik.values.description}
               onChange={formik.handleChange}
@@ -56,7 +46,7 @@ const EditForm = ({ post, onClose }) => {
               mb="1rem"
             />
             <Input
-              variant="outline"
+              variant="primary"
               name="tags"
               value={formik.values.tags}
               onChange={formik.handleChange}
@@ -64,7 +54,11 @@ const EditForm = ({ post, onClose }) => {
             />
           </Flex>
           <Flex w="100%" justify="flex-end" padding="1rem">
-            <IconButton type="submit" icon={<AiOutlineCheck />} />
+            <IconButton
+              variant="icon"
+              type="submit"
+              icon={<AiOutlineCheck />}
+            />
           </Flex>
         </form>
       </ModalBody>

@@ -9,6 +9,15 @@ export const InputStyles = {
         _hover: { border: '1px', borderColor: 'primary' },
       },
     },
+    secondary: {
+      field: {
+        color: 'text',
+        border: 'none',
+        bg: 'background',
+        _focus: { border: '1px', borderColor: 'accent' },
+        _hover: { border: '1px', borderColor: 'primary' },
+      },
+    },
   },
   defaultProps: {},
 };

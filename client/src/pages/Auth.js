@@ -5,7 +5,7 @@ import AuthForm from '../components/auth/AuthForm';
 
 const Auth = () => {
   return (
-    <Flex w="100%" h="100vh" align="center" justify="center">
+    <Flex w="100%" align="center" justify="center">
       <AuthForm />
     </Flex>
   );

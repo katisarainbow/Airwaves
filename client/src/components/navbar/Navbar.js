@@ -31,7 +31,7 @@ const Navbar = () => {
     }
 
     setUser(JSON.parse(localStorage.getItem('profile')));
-  }, [location, logout, user?.token]);
+  }, [location, logout, user?.token, navigate]);
 
   return (
     <Flex

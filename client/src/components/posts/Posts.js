@@ -1,17 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-
-import { Flex, Text } from '@chakra-ui/react';
-import Post from './post/Post';
-import InfiniteScroll from 'react-infinite-scroll-component';
-
 import LoaderPost from './loader/LoaderPost';
+import { Flex, Text } from '@chakra-ui/react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Post from './post/Post';
 
-const Posts = ({ posts, fetchPosts }) => {
-  const { postLength, isLoading } = useSelector((state) => state.post);
-
-  return posts.length === 0 && isLoading ? (
+const Posts = ({ posts, fetchPosts, postLength }) => {
+  return posts.length === 0 ? (
     <Flex w="50%" padding="2rem" direction="column">
+      <LoaderPost />
+      <LoaderPost />
+      <LoaderPost />
       <LoaderPost />
     </Flex>
   ) : (
@@ -22,7 +20,11 @@ const Posts = ({ posts, fetchPosts }) => {
           next={fetchPosts}
           hasMore={posts.length < postLength ? true : false}
           loader={<LoaderPost />}
-          endMessage={<Text>Yay! You have seen it all!</Text>}
+          endMessage={
+            <Text align="center" color="accent" m="2rem">
+              Yay! You have seen it all! Follow more artists for more
+            </Text>
+          }
         >
           {posts.map((post) => (
             <div key={post._id}>

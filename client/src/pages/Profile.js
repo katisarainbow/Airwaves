@@ -10,6 +10,7 @@ const Profile = () => {
   const { username } = useParams();
   const [userInfo, setUserInfo] = useState(null);
   const [userLoggedInInfo, setUserLoggedInInfo] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const user = JSON.parse(localStorage.getItem('profile'));
 
@@ -21,19 +22,27 @@ const Profile = () => {
 
     getUserProfileInfo();
 
-    const getUserLoggedIn = async () => {
-      const userLoggedIn = await fetchUser(user.result.username);
+    if (username !== user.result.username) {
+      const getUserLoggedIn = async () => {
+        const userLoggedIn = await fetchUser(user.result.username);
 
-      setUserLoggedInInfo(userLoggedIn.data);
-    };
+        setUserLoggedInInfo(userLoggedIn.data);
+      };
 
-    getUserLoggedIn();
-  }, [username, user.result.username]);
+      getUserLoggedIn();
+    }
+
+    setIsLoading(false);
+  }, [username]);
+
+  if (isLoading) {
+    <Text>Laoding</Text>;
+  }
 
   return userInfo ? (
     <Flex h="100vh" justify="center">
       <Flex w="80vw" h="auto" mt="2rem" direction="column">
-        <UserInfo {...{ userInfo, userLoggedInInfo }} />
+        <UserInfo {...{ userInfo, userLoggedInInfo, user }} />
         <UserPost {...{ userInfo }} />
       </Flex>
     </Flex>

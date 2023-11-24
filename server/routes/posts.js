@@ -11,7 +11,6 @@ import {
   getPostsBySearch,
   getPostsByUsername,
   deleteComment,
-  getPostComments,
   getPostsById,
   getFollowPosts,
 } from '../controllers/postsController.js';
@@ -22,8 +21,8 @@ const router = Router();
 
 // Posts
 
-router.get('/', getPosts);
-router.get('/explore', getFollowPosts);
+router.get('/', getFollowPosts);
+router.get('/explore', getPosts);
 router.get('/search', getPostsBySearch);
 router.get('/user/:username', getPostsByUsername);
 router.get('/:postId', getPostsById);
@@ -34,7 +33,6 @@ router.patch('/:id/likePost', auth, likePost);
 
 //Comments
 
-router.get('/:postId/commentPost', getPostComments);
 router.post('/:postId/commentPost', auth, commentPost);
 router.patch('/:postId/commentPost/:commentId', auth, updateComment);
 router.delete('/:postId/commentPost/:commentId', auth, deleteComment);

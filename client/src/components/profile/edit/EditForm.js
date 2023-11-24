@@ -12,7 +12,6 @@ import {
   VisuallyHidden,
 } from '@chakra-ui/react';
 
-import DatePicker from 'react-datepicker';
 import { updateUserData } from '../../../api';
 
 import 'react-datepicker/dist/react-datepicker.css';

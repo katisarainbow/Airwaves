@@ -43,7 +43,7 @@ const Icons = ({ logout, user, navigate }) => {
       ) : (
         <Button
           onClick={() => navigate('/auth')}
-          variant="secondary"
+          variant="primary"
           size="sm"
           ml="1rem"
         >

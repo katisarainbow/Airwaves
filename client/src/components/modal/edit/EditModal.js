@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   MenuItem,
   Modal,
@@ -7,21 +7,28 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import EditForm from "./EditForm";
+import EditForm from './EditForm';
 
 const EditModal = ({ post }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <MenuItem onClick={onOpen}>Edit</MenuItem>
+      <MenuItem
+        bg="secondary"
+        color="text"
+        _hover={{ background: 'background' }}
+        onClick={onOpen}
+      >
+        Edit
+      </MenuItem>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Edit</ModalHeader>
-          <ModalCloseButton />
+        <ModalContent bg="background">
+          <ModalHeader color="accent">Edit</ModalHeader>
+          <ModalCloseButton color="primary" />
           <EditForm {...{ onClose, post }} />
         </ModalContent>
       </Modal>

@@ -1,71 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { GoogleLogin } from '@react-oauth/google';
-import jwt_decode from 'jwt-decode';
 import {
   Avatar,
   Button,
   Flex,
   FormControl,
   FormLabel,
-  Heading,
-  Image,
-  Input,
-  InputGroup,
-  InputRightElement,
+  Text,
   VisuallyHiddenInput,
 } from '@chakra-ui/react';
-import * as Yup from 'yup';
-import { Form, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
-
-import signupimage from '../../assets/signupimage.png';
 
 import { login, signup } from '../../actions/auth';
-import { AUTH } from '../../constants/actionTypes';
 
-const validationSchemaSignUp = Yup.object({
-  email: Yup.string('Enter a email')
-    .required('Email is required')
-    .email('Invalid email'),
-
-  name: Yup.string('Enter a name')
-    .required('Name is required')
-    .min(1, 'Too Short!')
-    .max(10, 'Too Long!'),
-
-  username: Yup.string('Enter a username')
-    .required('Username is required')
-    .min(3, 'Too Short!')
-    .max(15, 'Too Long!'),
-
-  password: Yup.string('Enter a password'),
-
-  profileImage: Yup.string('Select a Image'),
-
-  repeatPassword: Yup.string('Retype your Password').oneOf(
-    [Yup.ref('password')],
-    'Passwords must match'
-  ),
-});
-
-const validationSchemaLogIn = Yup.object({
-  username: Yup.string('Enter a username')
-    .required('Username is required')
-    .min(3, 'Too Short!')
-    .max(15, 'Too Long!'),
-
-  password: Yup.string('Enter a password'),
-});
+import {
+  validationSchemaLogIn,
+  validationSchemaSignUp,
+} from './ValidationSchema';
+import InputComponent from './InputComponent';
+import Error from './Error';
 
 const AuthForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const inputRef = useRef();
   const [isSignUp, setIsSignUp] = useState(false);
-  const [seePassword, setSeePassword] = useState(false);
-  const [seeRepeatPassword, setSeeRepeatPassword] = useState(false);
   const [image, setImage] = useState();
   const [showImage, setShowImage] = useState();
 
@@ -81,32 +41,12 @@ const AuthForm = () => {
     onSubmit: (formData) => {
       if (isSignUp) {
         dispatch(signup({ ...formData }, navigate));
-        console.log({ ...formData });
       } else {
         dispatch(login(formData, navigate));
-        console.log(formData);
       }
     },
     validationSchema: isSignUp ? validationSchemaSignUp : validationSchemaLogIn,
   });
-
-  const googleSuccess = async (res) => {
-    const token = res?.credential;
-    const result = jwt_decode(token);
-    // try {
-    //   dispatch({ type: AUTH, data: { result, token } });
-    //   navigate("/");
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
-    console.log(result);
-  };
-
-  const googleFailure = (error) => {
-    console.log(error);
-    console.log('Google Sign In Was Unsuccessful. Try Again Later.');
-  };
 
   useEffect(() => {
     if (image) {
@@ -125,18 +65,27 @@ const AuthForm = () => {
     <Flex
       direction="column"
       bg="secondary"
-      w="30%"
-      h={isSignUp ? '80vh' : '50vh'}
+      w={{ base: '80%', xl: '30%' }}
       justify="center"
       align="center"
       borderRadius="20px"
       color="white"
+      padding="2rem"
+      mt="4rem"
     >
-      <Flex mb="1rem">{isSignUp && <Image src={signupimage} w="400px" />}</Flex>
+      {isSignUp ? (
+        <Flex mb="2rem">
+          <Text fontSize="2rem">Sign Up</Text>
+        </Flex>
+      ) : (
+        <Flex>
+          <Text fontSize="2rem">Sign In</Text>
+        </Flex>
+      )}
 
-      <form align="end" onSubmit={formik.handleSubmit}>
+      <FormControl padding="1rem" align="end" onSubmit={formik.handleSubmit}>
         {isSignUp && (
-          <Flex direction="column">
+          <Flex w="100%" direction="column">
             <FormLabel>Image</FormLabel>
             <VisuallyHiddenInput
               type="file"
@@ -151,7 +100,7 @@ const AuthForm = () => {
                 }
               }}
             />
-            <Flex w="100%" align="center">
+            <Flex w="100%" align="center" direction="column">
               {showImage && <Avatar src={showImage} borderRadius="0%" />}
               <Button
                 variant="primary"
@@ -161,109 +110,86 @@ const AuthForm = () => {
               >
                 Select a Image
               </Button>
+              {formik.errors.profileImage && formik.touched.profileImage ? (
+                <Error error={formik.errors.profileImage} />
+              ) : null}
             </Flex>
           </Flex>
         )}
         {isSignUp && (
           <>
-            <FormControl>
-              <FormLabel mt="0.5em">Email</FormLabel>
-              <Input
-                type="text"
-                name="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                text-align="initial"
-                resize="none"
-              />
-            </FormControl>
-            <FormControl mt="0.5em">
-              <FormLabel>Name</FormLabel>
-              <Input
-                type="text"
-                name="name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                text-align="initial"
-                resize="none"
-              />
-            </FormControl>
+            <InputComponent
+              label="Email"
+              type="text"
+              name="email"
+              value={formik.values.email}
+              handleChange={formik.handleChange}
+            />
+            {formik.errors.email && formik.touched.email ? (
+              <Error error={formik.errors.email} />
+            ) : null}
+            <InputComponent
+              label="Name"
+              type="text"
+              name="name"
+              value={formik.values.name}
+              handleChange={formik.handleChange}
+            />
+            {formik.errors.name && formik.touched.name ? (
+              <Error error={formik.errors.name} />
+            ) : null}
           </>
         )}
-        <FormControl mt={isSignUp ? '0.5rem' : '0rem'}>
-          <FormLabel>Username</FormLabel>
-          <Input
-            type="text"
-            name="username"
-            value={formik.values.username}
-            onChange={formik.handleChange}
-            text-align="initial"
-            resize="none"
-          />
-        </FormControl>
-        <FormControl mt="0.5em">
-          <FormLabel>Password</FormLabel>
-          <InputGroup>
-            <Input
-              type={seePassword ? 'text' : 'password'}
-              name="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              text-align="initial"
-              resize="none"
-            />
-            <InputRightElement
-              onClick={() => setSeePassword(!seePassword)}
-              children={
-                seePassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />
-              }
-            />
-          </InputGroup>
-        </FormControl>
+
+        <InputComponent
+          label="Username"
+          type="text"
+          name="username"
+          value={formik.values.username}
+          handleChange={formik.handleChange}
+        />
+        {formik.errors.username && formik.touched.username ? (
+          <Error error={formik.errors.username} />
+        ) : null}
+        <InputComponent
+          label="Password"
+          name="password"
+          value={formik.values.password}
+          handleChange={formik.handleChange}
+        />
+        {formik.errors.password && formik.touched.password ? (
+          <Error error={formik.errors.password} />
+        ) : null}
+
         {isSignUp && (
-          <FormControl mt="0.5em">
-            <FormLabel>Repeat Password</FormLabel>
-            <InputGroup>
-              <Input
-                type={seeRepeatPassword ? 'text' : 'password'}
-                name="repeatPassword"
-                value={formik.values.repeatPassword}
-                onChange={formik.handleChange}
-                text-align="initial"
-                resize="none"
-              />
-              <InputRightElement
-                onClick={() => setSeeRepeatPassword(!seeRepeatPassword)}
-                children={
-                  seeRepeatPassword ? (
-                    <AiOutlineEyeInvisible />
-                  ) : (
-                    <AiOutlineEye />
-                  )
-                }
-              />
-            </InputGroup>
-          </FormControl>
+          <>
+            <InputComponent
+              label="Repeat Password"
+              name="repeatPassword"
+              value={formik.values.repeatPassword}
+              handleChange={formik.handleChange}
+            />
+            {formik.errors.repeatPassword && formik.touched.repeatPassword ? (
+              <Error error={formik.errors.repeatPassword} />
+            ) : null}
+          </>
         )}
 
         <Button
-          w="30%"
           variant="primary"
           type="submit"
           mt="1rem"
           mb={!isSignUp ? '2rem' : '0px'}
+          size="sm"
         >
           Send
         </Button>
-      </form>
-      {!isSignUp && (
-        <GoogleLogin onSuccess={googleSuccess} onError={googleFailure} />
-      )}
+      </FormControl>
       <Button
-        mt="1rem"
+        mt="2rem"
         onClick={() => setIsSignUp(!isSignUp)}
-        variant="none"
-        color="accent"
+        variant="textOnly"
+        mb={isSignUp && '2rem'}
       >
         {isSignUp
           ? 'Already have an account? Sign in'

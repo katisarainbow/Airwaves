@@ -38,7 +38,7 @@ const Comment = ({ comment }) => {
       <Avatar
         size="sm"
         borderRadius="none"
-        src={comment.profileImage}
+        src={comment.creator.profileImage}
         mt="5px"
       />
       <Flex
@@ -56,9 +56,9 @@ const Comment = ({ comment }) => {
             _hover={{ color: 'primary' }}
             cursor="pointer"
           >
-            @{comment.username}
+            @{comment.creator.username}
           </Text>
-          {user?.result?._id === comment.creator && (
+          {user?.result?._id === comment.creator._id && (
             <MoreComments {...{ comment: comment, getId }} />
           )}
         </Flex>
@@ -85,7 +85,7 @@ const Comment = ({ comment }) => {
           <IconButton
             isRound={true}
             size="xs"
-            variant="iconPost"
+            variant="onlyIcon"
             alignSelf="end"
             margin="0.5rem "
             icon={<Likes />}

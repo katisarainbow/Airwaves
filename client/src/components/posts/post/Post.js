@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Avatar,
+  Button,
   Card,
   CardFooter,
   CardHeader,
@@ -10,10 +11,32 @@ import {
   Image,
   Text,
 } from '@chakra-ui/react';
-import { AiOutlineHeart } from 'react-icons/ai';
+import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from 'react-icons/ai';
+import { useDispatch } from 'react-redux';
+import { likePost } from '../../../actions/posts';
 
 const Post = ({ post }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // const user = useState(JSON.parse(localStorage.getItem('profile')));
+
+  // console.log(post);
+
+  // const like = () => {
+  //   dispatch(likePost(post._id));
+  // };
+
+  // const Likes = () => {
+  //   if (post.likes.length > 0) {
+  //     return post.likes.find((like) => like === user?.result?._id) ? (
+  //       <AiFillHeart />
+  //     ) : (
+  //       <AiOutlineHeart />
+  //     );
+  //   }
+  //   return <AiOutlineHeart />;
+  // };
 
   return (
     <Flex w="100%" mb="1rem">
@@ -31,7 +54,7 @@ const Post = ({ post }) => {
               color="white"
               _hover={{ color: 'primary' }}
               cursor="pointer"
-              onClick={() => navigate(`/user/${post.username}`)}
+              onClick={() => navigate(`/user/${post.creator.username}`)}
             >
               @{post.creator.username ? post.creator.username : 'username'}
             </Text>
@@ -45,23 +68,51 @@ const Post = ({ post }) => {
             navigate(`/${post._id}`);
           }}
         />
-
+        <Flex m="1rem">
+          {post.tags.map((tag) => (
+            <Button
+              size="xs"
+              variant="secondaryInvert"
+              key={`${post._id}${tag}`}
+              onClick={() => navigate(`/search?searchQuery=${tag}`)}
+              mr="10px"
+            >
+              {tag}
+            </Button>
+          ))}
+        </Flex>
         <CardFooter h="3rem">
-          <Flex w="100%" justify="flex-end" align="center">
-            {post.likes > 0 && (
-              <Text color="white">
-                {post.likeCount === 1
-                  ? `${post.likeCount} beat`
-                  : `${post.likeCount} beats`}
-              </Text>
-            )}
-            <IconButton
-              variant="onlyIcon"
-              onClick={() => {
-                navigate(`/${post._id}`);
-              }}
-              icon={<AiOutlineHeart />}
-            />
+          <Flex w="100%" justify="flex-end">
+            <Flex align="center">
+              {post.likes.length > 0 && (
+                <Text color="white" fontSize="xs">
+                  {post.likes.length === 1
+                    ? `${post.likes.length} beat`
+                    : `${post.likes.length} beats`}
+                </Text>
+              )}
+              <IconButton
+                variant="onlyIcon"
+                onClick={() => {
+                  navigate(`/${post._id}`);
+                }}
+                icon={<AiOutlineHeart />}
+              />
+            </Flex>
+            <Flex align="center">
+              {post.comments.length > 0 && (
+                <Text color="text" fontSize="xs">
+                  {post.comments.length}
+                </Text>
+              )}
+              <IconButton
+                variant="onlyIcon"
+                onClick={() => {
+                  navigate(`/${post._id}`);
+                }}
+                icon={<AiOutlineMessage />}
+              />
+            </Flex>
           </Flex>
         </CardFooter>
       </Card>

@@ -5,7 +5,7 @@ import { Avatar, Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
 
 import { followUser } from '../../../api';
 
-const UserInfo = ({ userInfo, userLoggedInInfo }) => {
+const UserInfo = ({ userInfo, userLoggedInInfo, user }) => {
   const FollowingStatus = () => {
     if (userLoggedInInfo.following?.includes(userInfo._id)) {
       return 'Unfollow';
@@ -19,17 +19,7 @@ const UserInfo = ({ userInfo, userLoggedInInfo }) => {
     FollowingStatus();
   };
 
-  const convertISOtoReadable = (dateISO) => {
-    const dateObject = new Date(dateISO);
-
-    const day = String(dateObject.getDate()).padStart(2, '0');
-    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
-    const year = String(dateObject.getFullYear()).slice(-2);
-
-    const formattedDate = `${day}/${month}/${year}`;
-    return formattedDate;
-  };
-
+  console.log(userInfo._id, user.result._id);
   return (
     <div>
       <Flex bg="secondary" w="100%" h="30wh" align="center" padding="2rem">
@@ -59,7 +49,7 @@ const UserInfo = ({ userInfo, userLoggedInInfo }) => {
                 )}
               </Flex>
             </Flex>
-            {userInfo._id === userLoggedInInfo._id && <EditMenu />}
+            {userInfo._id === user.result._id && <EditMenu />}
           </Flex>
 
           {userInfo.description ? (
@@ -70,7 +60,7 @@ const UserInfo = ({ userInfo, userLoggedInInfo }) => {
             <Text color="primary">No description.</Text>
           )}
           <Flex justify="flex-end" mt="2rem">
-            {userInfo.username !== userLoggedInInfo.username && (
+            {userInfo.username === userLoggedInInfo.username && (
               <Button
                 variant="primary"
                 size="xs"

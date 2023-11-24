@@ -7,17 +7,8 @@ import EditModal from '../../modal/edit/EditModal';
 const MoreMenu = ({ post }) => {
   return (
     <Menu>
-      <MenuButton
-        as={IconButton}
-        variant="ghost"
-        color="text"
-        transition="all 0.2s"
-        _hover={{ bg: 'gray.400' }}
-        _expanded={{ bg: 'blue.400' }}
-        _focus={{ boxShadow: 'outline' }}
-        icon={<AiOutlineMore />}
-      />
-      <MenuList>
+      <MenuButton as={IconButton} variant="icon" icon={<AiOutlineMore />} />
+      <MenuList bg="secondary" borderColor="background">
         <EditModal {...{ post }} />
         <DeleteAlert {...{ post }} />
       </MenuList>

@@ -78,7 +78,12 @@ export const getPostsById = async (req, res) => {
   const { postId } = req.params;
 
   try {
-    const post = await Post.findOne({ _id: postId }).populate('creator');
+    const post = await Post.findOne({ _id: postId })
+      .populate('creator')
+      .populate({
+        path: 'comments',
+        populate: 'creator',
+      });
 
     res.json(post);
   } catch (error) {
@@ -160,19 +165,6 @@ export const deletePost = async (req, res) => {
 
     await Post.findByIdAndRemove(id);
     res.json({ message: 'Post deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// POST - COMMENTS
-
-export const getPostComments = async (req, res) => {
-  const { postId } = req.params;
-  try {
-    const postComments = await Post.findById(postId).populate('comments');
-
-    res.json(postComments.comments);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

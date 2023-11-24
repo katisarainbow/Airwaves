@@ -40,28 +40,31 @@ export const followUser = async (req, res) => {
   console.log(userId);
   console.log(userLogId);
 
-  if (!mongoose.Types.ObjectId.isValid(userId))
-    return res.status(404).send('No user with that id');
-
-  if (!mongoose.Types.ObjectId.isValid(userLogId))
-    return res.status(404).send('No user with that id');
+  if (
+    !mongoose.Types.ObjectId.isValid(userId) ||
+    !mongoose.Types.ObjectId.isValid(userLogId)
+  ) {
+    return res.status(400).send('Invalid user ID');
+  }
 
   try {
-    const user = await User.findById(userLogId);
+    const updatedUser = await User.findById(userLogId);
 
-    const index = user.following.findIndex((id) => id === String(userId));
-
-    if (index === -1) {
-      user.following.push(userId);
-    } else {
-      user.following = user.following.filter((id) => id !== String(userId));
+    if (!updatedUser) {
+      return res.status(404).send('User not found');
     }
 
-    const updatedUser = await User.findByIdAndUpdate(userLogId, user, {
-      new: true,
-    });
+    const index = updatedUser.following.indexOf(userId);
+
+    if (index === -1) {
+      updatedUser.following.push(userId);
+    } else {
+      updatedUser.following.splice(index, 1);
+    }
+
+    await updatedUser.save();
+
     res.json(updatedUser);
-    console.log(updatedUser);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

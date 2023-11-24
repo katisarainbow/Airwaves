@@ -25,6 +25,7 @@ const Post = ({ postView }) => {
   const [comments, setComments] = useState(false);
   const user = JSON.parse(localStorage.getItem('profile'));
 
+  console.log(postView);
   if (!post) {
     return <h1>Loading</h1>;
   }
@@ -49,6 +50,7 @@ const Post = ({ postView }) => {
       <Flex
         bg="secondary"
         h="auto"
+        w="50%"
         align="center"
         justify="center"
         padding="1rem 2rem"
@@ -80,7 +82,7 @@ const Post = ({ postView }) => {
             <MoreMenu {...{ post }} />
           )}
         </Flex>
-        <Image w="50rem" src={post.image ? post.image : post.selectedFile} />
+        <Image w="100%" src={post.image ? post.image : post.selectedFile} />
 
         <Flex w="100%" padding="1rem" direction="column">
           <Heading color="white">{post.title}</Heading>

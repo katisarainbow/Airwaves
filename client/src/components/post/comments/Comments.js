@@ -1,22 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Flex, IconButton, Textarea } from '@chakra-ui/react';
 import { AiOutlineCheck } from 'react-icons/ai';
 
 import Comment from './comment/Comment';
-import { getPostComments, commentPost } from '../../../api';
+import { commentPost } from '../../../api';
 
 const Comments = ({ post }) => {
   const [comment, setComment] = useState('');
-  const [comments, setComments] = useState();
+  const comments = post.comments;
   const user = JSON.parse(localStorage.getItem('profile'));
-
-  useEffect(() => {
-    const fetchPostComments = async () => {
-      const data = await getPostComments(post._id);
-      setComments(data.data);
-    };
-    fetchPostComments();
-  }, [post]);
 
   const handleSubmit = () => {
     const finalComment = {
@@ -38,15 +30,14 @@ const Comments = ({ post }) => {
     >
       <Flex w="100%" align="center" justify="space-between">
         <Textarea
-          bg="secondary"
-          borderColor="none"
+          variant="primary"
           w="93%"
           size="sm"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
         <IconButton
-          variant="secondary"
+          variant="icon"
           disabled={!comment?.length}
           size="sm"
           icon={<AiOutlineCheck />}

@@ -15,12 +15,9 @@ import {
 } from '@chakra-ui/react';
 import { deleteComment } from '../../../../../api';
 
-// import { deletePost } from "../../actions/posts";
-
 const DeleteCommentAlert = ({ commentId }) => {
   const { postId } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const dispatch = useDispatch();
   const toast = useToast();
   const cancelRef = React.useRef();
 
@@ -53,7 +50,7 @@ const DeleteCommentAlert = ({ commentId }) => {
         <AlertDialogOverlay>
           <AlertDialogContent bg="secondary">
             <AlertDialogHeader color="accent" fontSize="lg" fontWeight="bold">
-              Delete Post
+              Delete Comment
             </AlertDialogHeader>
 
             <AlertDialogBody color="white">
@@ -61,7 +58,7 @@ const DeleteCommentAlert = ({ commentId }) => {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button variant="secondary" ref={cancelRef} onClick={onClose}>
+              <Button variant="textOnly" ref={cancelRef} onClick={onClose}>
                 Cancel
               </Button>
               <Button variant="primary" onClick={deleteButton} ml={3}>
