@@ -25,13 +25,13 @@ const EditProfile = () => {
   }
 
   return userInfo ? (
-    <Flex w="100%" justify="center">
+    <Flex w="100%" justify="center" mt={{ base: '80px', xl: '60px' }}>
       <Flex
-        bg="background"
+        bg="red"
         border="4px"
         borderColor="secondary"
         borderRadius="20px"
-        w="30%"
+        w={{ base: '90%', xl: '50%' }}
         mt="5rem"
         justify="center"
         padding="4rem"

@@ -71,21 +71,21 @@ const Post = ({ post }) => {
         <Flex m="1rem">
           {post.tags.map((tag) => (
             <Button
-              size="xs"
+              size={{ base: '100%', md: '25%' }}
               variant="secondaryInvert"
               key={`${post._id}${tag}`}
               onClick={() => navigate(`/search?searchQuery=${tag}`)}
-              mr="10px"
+              mr={{ base: '20px', md: '10px' }}
             >
               {tag}
             </Button>
           ))}
         </Flex>
-        <CardFooter h="3rem">
+        <CardFooter h="3rem" mb="1rem">
           <Flex w="100%" justify="flex-end">
             <Flex align="center">
               {post.likes.length > 0 && (
-                <Text color="white" fontSize="xs">
+                <Text color="white" fontSize={{ base: '120%', xl: '80%' }}>
                   {post.likes.length === 1
                     ? `${post.likes.length} beat`
                     : `${post.likes.length} beats`}
@@ -93,6 +93,7 @@ const Post = ({ post }) => {
               )}
               <IconButton
                 variant="onlyIcon"
+                fontSize={{ base: '150%', xl: '100%' }}
                 onClick={() => {
                   navigate(`/${post._id}`);
                 }}
@@ -101,12 +102,13 @@ const Post = ({ post }) => {
             </Flex>
             <Flex align="center">
               {post.comments.length > 0 && (
-                <Text color="text" fontSize="xs">
+                <Text color="text" fontSize={{ base: '120%', xl: '80%' }}>
                   {post.comments.length}
                 </Text>
               )}
               <IconButton
                 variant="onlyIcon"
+                fontSize={{ base: '150%', xl: '100%' }}
                 onClick={() => {
                   navigate(`/${post._id}`);
                 }}

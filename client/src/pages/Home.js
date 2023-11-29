@@ -39,7 +39,7 @@ const Home = ({ user }) => {
   }
 
   return posts?.length > 0 ? (
-    <Flex justify="center">
+    <Flex justify="center" mt={{ base: '80px', xl: '60px' }}>
       <Posts {...{ posts, postLength, fetchPosts }} />
     </Flex>
   ) : (

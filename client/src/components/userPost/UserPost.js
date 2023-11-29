@@ -7,7 +7,7 @@ const UserPost = ({ userInfo }) => {
 
   return (
     userInfo && (
-      <SimpleGrid mt="1rem" h="30rem" columns={4}>
+      <SimpleGrid mt="1rem" columns={{ base: '2', xl: '4' }}>
         {userInfo.posts?.map((post) => (
           <Image
             src={post.selectedFile}

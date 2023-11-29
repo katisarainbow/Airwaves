@@ -21,6 +21,7 @@ const App = () => {
     <ChakraProvider theme={theme}>
       <BrowserRouter>
         <Navbar {...{ user }} />
+
         <Routes>
           {user ? (
             <Route path="/" element={<Home {...{ user }} />} />

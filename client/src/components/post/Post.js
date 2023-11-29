@@ -17,6 +17,7 @@ import MoreMenu from '../menu/more/MoreMenu';
 import { likePost } from '../../actions/posts';
 import Comments from './comments/Comments';
 import { useNavigate } from 'react-router-dom';
+import LoaderPost from '../posts/loader/LoaderPost';
 
 const Post = ({ postView }) => {
   const post = postView;
@@ -27,7 +28,7 @@ const Post = ({ postView }) => {
 
   console.log(postView);
   if (!post) {
-    return <h1>Loading</h1>;
+    return <LoaderPost />;
   }
 
   const like = () => {
@@ -46,16 +47,22 @@ const Post = ({ postView }) => {
   };
 
   return (
-    <Flex w="100%" padding="2rem" align="center" justify="center">
+    <Flex
+      bg="red"
+      w="100%"
+      padding={{ base: '0px', xl: '2rem' }}
+      align="center"
+      justify="center"
+    >
       <Flex
         bg="secondary"
         h="auto"
-        w="50%"
+        w={{ base: '100%', xl: '50%' }}
         align="center"
         justify="center"
         padding="1rem 2rem"
         direction="column"
-        borderRadius="30px"
+        borderRadius={{ base: '0px', xl: '30px' }}
       >
         <Flex w="100%" align="center" justify="space-between" mb="1rem">
           <Flex
@@ -66,14 +73,22 @@ const Post = ({ postView }) => {
           >
             <Avatar
               src={post.creator.profileImage}
-              size="md"
+              size={{ base: 'lg', xl: 'md' }}
               borderRadius="none"
             />
             <Flex direction="column">
-              <Text color="white" ml="1rem">
+              <Text
+                color="white"
+                ml="1rem"
+                fontSize={{ base: '150%', xl: '100%' }}
+              >
                 {post.creator.name ? post.creator.name : 'Name'}
               </Text>
-              <Text fontSize="xs" color="text" ml="1rem">
+              <Text
+                color="text"
+                ml="1rem"
+                fontSize={{ base: '120%', xl: '100%' }}
+              >
                 @{post.creator.username ? post.creator.username : 'username'}
               </Text>
             </Flex>
@@ -86,18 +101,18 @@ const Post = ({ postView }) => {
 
         <Flex w="100%" padding="1rem" direction="column">
           <Heading color="white">{post.title}</Heading>
-          <Text color="white" mt="1rem">
+          <Text fontSize={{ base: '150%', xl: '100%' }} color="white" mt="1rem">
             {post.description}
           </Text>
         </Flex>
         <Flex w="100%" padding="0rem 1rem" mt="1rem">
           {post.tags.map((tag) => (
             <Button
-              size="xs"
+              size={{ base: '150%', xl: '50%' }}
               variant="secondaryInvert"
               key={`${post._id}${tag}`}
               onClick={() => navigate(`/search?searchQuery=${tag}`)}
-              mr="10px"
+              mr={{ base: '20px', xl: '10px' }}
             >
               {tag}
             </Button>
@@ -106,7 +121,11 @@ const Post = ({ postView }) => {
         <Flex w="100%" justify="flex-end" padding="1rem">
           <ButtonGroup gap={1}>
             {post.likes.length > 0 && (
-              <Text fontSize="sm" color="white" alignSelf="center">
+              <Text
+                fontSize={{ base: '150%', xl: '100%' }}
+                color="white"
+                alignSelf="center"
+              >
                 {post.likes.length === 1
                   ? `${post.likes?.length} beat`
                   : `${post.likes?.length} beats`}
@@ -114,7 +133,7 @@ const Post = ({ postView }) => {
             )}
             <IconButton
               variant="secondaryInvert"
-              size="sm"
+              fontSize={{ base: '150%', xl: '100%' }}
               onClick={() => {
                 user ? like() : navigate('/auth');
               }}
@@ -123,7 +142,7 @@ const Post = ({ postView }) => {
             </IconButton>
             <IconButton
               variant="secondaryInvert"
-              size="sm"
+              fontSize={{ base: '150%', xl: '100%' }}
               onClick={() => {
                 user ? setComments(!comments) : navigate('/auth');
               }}

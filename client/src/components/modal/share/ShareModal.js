@@ -12,10 +12,10 @@ import FormShare from './FormShare';
 const ShareModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <div>
+    <>
       <IconButton
         ml="1rem"
-        size="sm"
+        size="md"
         variant="icon"
         borderRadius="100%"
         onClick={onOpen}
@@ -26,7 +26,7 @@ const ShareModal = () => {
         <ModalOverlay />
         <FormShare isOpen={isOpen} onClose={onClose} />
       </Modal>
-    </div>
+    </>
   );
 };
 

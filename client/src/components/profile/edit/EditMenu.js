@@ -13,7 +13,12 @@ const EditMenu = () => {
   const navigate = useNavigate();
   return (
     <Menu>
-      <MenuButton as={IconButton} variant="icon" icon={<AiOutlineMore />} />
+      <MenuButton
+        fontSize={{ base: '150%', xl: '100%' }}
+        as={IconButton}
+        variant="icon"
+        icon={<AiOutlineMore />}
+      />
       <MenuList bg="background" borderColor="secondary">
         <MenuItem bg="background" onClick={() => navigate(`/user/config`)}>
           Edit

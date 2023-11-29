@@ -6,14 +6,18 @@ import Post from './post/Post';
 
 const Posts = ({ posts, fetchPosts, postLength }) => {
   return posts.length === 0 ? (
-    <Flex w="50%" padding="2rem" direction="column">
+    <Flex w={{ base: '100%', xl: '40%' }} padding="2rem" direction="column">
       <LoaderPost />
       <LoaderPost />
       <LoaderPost />
       <LoaderPost />
     </Flex>
   ) : (
-    <Flex w="40%" direction="column" padding="2rem 2rem">
+    <Flex
+      w={{ base: '100%', xl: '40%' }}
+      direction="column"
+      padding="2rem 2rem"
+    >
       <Flex direction="column-reverse" w="100%" columns={1}>
         <InfiniteScroll
           dataLength={posts.length}

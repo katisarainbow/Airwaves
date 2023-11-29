@@ -83,7 +83,7 @@ const AuthForm = () => {
         </Flex>
       )}
 
-      <FormControl padding="1rem" align="end" onSubmit={formik.handleSubmit}>
+      <form padding="1rem" align="end" onSubmit={formik.handleSubmit}>
         {isSignUp && (
           <Flex w="100%" direction="column">
             <FormLabel>Image</FormLabel>
@@ -184,7 +184,7 @@ const AuthForm = () => {
         >
           Send
         </Button>
-      </FormControl>
+      </form>
       <Button
         mt="2rem"
         onClick={() => setIsSignUp(!isSignUp)}

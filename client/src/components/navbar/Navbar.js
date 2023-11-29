@@ -34,31 +34,45 @@ const Navbar = () => {
   }, [location, logout, user?.token, navigate]);
 
   return (
-    <Flex
-      h="60px"
-      bg="background"
-      borderBottom="1px"
-      borderColor="secondary"
-      justify="space-between"
-      align="center"
-      padding="1.5rem"
-      position="sticky"
-      top="0"
-      zIndex="1"
-    >
-      <Box w="100%">
-        <Image
-          w="180px"
-          src={airwaves}
-          onClick={() => navigate('/')}
-          cursor="pointer"
-          mr="10rem"
-        />
-      </Box>
-      <Flex w={user ? '100%' : '100%'} align="center">
-        <Search />
+    <Flex w="100%">
+      <Flex
+        w="100%"
+        h={{ base: '80px', xl: '60px' }}
+        bg="background"
+        borderBottom="1px"
+        borderColor="secondary"
+        justify="space-between"
+        align="center"
+        padding="1.5rem"
+        position="fixed"
+        top="0"
+        zIndex="1"
+      >
+        <Box>
+          <Image
+            w="180px"
+            S
+            src={airwaves}
+            onClick={() => navigate('/')}
+            cursor="pointer"
+          />
+        </Box>
+        <Flex w={{ base: '70%', xl: '50%' }}>
+          <Search />
+        </Flex>
+        <Flex display={{ base: 'none', xl: 'flex' }}>
+          <Icons {...{ logout, user, navigate }} />
+        </Flex>
       </Flex>
-      <Flex w="100%" justify="flex-end">
+      <Flex
+        display={{ base: 'flex', xl: 'none' }}
+        w="100%"
+        h="60px"
+        position="fixed"
+        bottom="2"
+        justify="center"
+        zIndex="1"
+      >
         <Icons {...{ logout, user, navigate }} />
       </Flex>
     </Flex>

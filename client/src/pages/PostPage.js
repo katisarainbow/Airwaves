@@ -4,6 +4,7 @@ import { Flex } from '@chakra-ui/react';
 
 import Post from '../components/post/Post';
 import { fetchPostsById } from '../api';
+import LoaderPost from '../components/posts/loader/LoaderPost';
 
 const PostPage = () => {
   const { postId } = useParams();
@@ -23,12 +24,10 @@ const PostPage = () => {
   }, [postId]);
 
   if (noPost) {
-    return 'MENTIRA';
+    return <LoaderPost />;
   }
 
-  return (
-    <Flex>{post ? <Post {...{ postView: post.data }} /> : 'Loading'}</Flex>
-  );
+  return <Flex>{post ? <Post {...{ postView: post.data }} /> : null}</Flex>;
 };
 
 export default PostPage;

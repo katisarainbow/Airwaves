@@ -25,7 +25,7 @@ const UserInfo = ({ userInfo, userLoggedInInfo, user }) => {
       <Flex bg="secondary" w="100%" h="30wh" align="center" padding="2rem">
         <Avatar
           objectFit="cover"
-          boxSize="12rem"
+          boxSize="15rem"
           src={userInfo.profileImage}
           borderRadius="100%"
         />
@@ -41,9 +41,11 @@ const UserInfo = ({ userInfo, userLoggedInInfo, user }) => {
             <Flex direction="column">
               <Heading color="white">{userInfo.name}</Heading>
               <Flex align="center">
-                <Text mb="0.5em">@{userInfo.username}</Text>
+                <Text fontSize={{ base: '150%', xl: '100%' }} mb="0.5em">
+                  @{userInfo.username}
+                </Text>
                 {userInfo.pronouns && (
-                  <Text ml="1rem" fontSize="2xs">
+                  <Text fontSize={{ base: '100%', xl: '80%' }} ml="1rem">
                     {userInfo.pronouns}
                   </Text>
                 )}
@@ -53,11 +55,17 @@ const UserInfo = ({ userInfo, userLoggedInInfo, user }) => {
           </Flex>
 
           {userInfo.description ? (
-            <Text align="justify" ml="1rem">
+            <Text
+              align="justify"
+              ml="1rem"
+              fontSize={{ base: '150%', xl: '100%' }}
+            >
               {userInfo.description}
             </Text>
           ) : (
-            <Text color="primary">No description.</Text>
+            <Text fontSize={{ base: '150%', xl: '100%' }} color="primary">
+              No description.
+            </Text>
           )}
           <Flex justify="flex-end" mt="2rem">
             {userInfo.username === userLoggedInInfo.username && (

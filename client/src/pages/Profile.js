@@ -40,15 +40,18 @@ const Profile = () => {
   }
 
   return userInfo ? (
-    <Flex h="100vh" justify="center">
-      <Flex w="80vw" h="auto" mt="2rem" direction="column">
+    <Flex h="100vh" justify="center" mt={{ base: '80px', xl: '60px' }}>
+      <Flex
+        w={{ base: '100%', xl: '80%' }}
+        h="auto"
+        mt="2rem"
+        direction="column"
+      >
         <UserInfo {...{ userInfo, userLoggedInInfo, user }} />
         <UserPost {...{ userInfo }} />
       </Flex>
     </Flex>
-  ) : (
-    <Text>No existe este usuario</Text>
-  );
+  ) : null;
 };
 
 export default Profile;

@@ -26,7 +26,12 @@ const Explore = () => {
   }
 
   return (
-    <Flex w="100%" direction="row" justify="center">
+    <Flex
+      w="100%"
+      direction="row"
+      justify="center"
+      mt={{ base: '80px', xl: '60px' }}
+    >
       <ExplorePosts {...{ posts, fetchPosts, currentPage }} />
     </Flex>
   );
